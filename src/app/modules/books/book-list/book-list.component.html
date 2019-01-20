@@ -1,0 +1,10 @@
+<mat-nav-list class="nav-links">
+  <a
+    mat-list-item
+    [routerLink]="['/books', book.id]"
+    routerLinkActive="active-link"
+    *ngFor="let book of (bookList | async)"
+  >
+    <h4 matLine>{{ book.title }}</h4>
+  </a>
+</mat-nav-list>

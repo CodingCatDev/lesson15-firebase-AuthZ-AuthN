@@ -9,6 +9,9 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { MatSliderModule } from '@angular/material';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { FirestoreSettingsToken } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,9 +21,11 @@ import { environment } from 'src/environments/environment';
     BrowserAnimationsModule,
     MatSliderModule, // This is a weird but for hammerjs I think
     SidenavModule,
-    AngularFireModule.initializeApp(environment.firebase) // This sets our key to initialize firebase
+    AngularFireModule.initializeApp(environment.firebase), // This sets our key to initialize firebase
+    AngularFirestoreModule,
+    AngularFireStorageModule
   ],
-  providers: [],
+  providers: [{ provide: FirestoreSettingsToken, useValue: {} }], // https://github.com/angular/angularfire2/issues/1993
   bootstrap: [AppComponent]
 })
 export class AppModule {

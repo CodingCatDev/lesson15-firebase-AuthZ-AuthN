@@ -9,6 +9,10 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        loadChildren: './book-list/book-list.module#BookListModule'
+      },
+      {
+        path: ':bookId',
         loadChildren: './book-detail/book-detail.module#BookDetailModule'
       }
     ]
@@ -19,4 +23,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class BooksRoutingModule { }
+export class BooksRoutingModule {}
