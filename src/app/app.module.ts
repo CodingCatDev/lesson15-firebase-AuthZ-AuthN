@@ -7,6 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SidenavModule } from './modules/sidenav/sidenav.module';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { MatSliderModule } from '@angular/material';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,7 +17,8 @@ import { MatSliderModule } from '@angular/material';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatSliderModule, // This is a weird but for hammerjs I think
-    SidenavModule
+    SidenavModule,
+    AngularFireModule.initializeApp(environment.firebase) // This sets our key to initialize firebase
   ],
   providers: [],
   bootstrap: [AppComponent]
