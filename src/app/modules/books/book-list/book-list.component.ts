@@ -15,11 +15,6 @@ export class BookListComponent implements OnInit {
   constructor(private fs: FirestoreService, private router: Router) {}
 
   ngOnInit() {
-    console.log(this.fs);
-    this.bookList = this.fs.getBooks().pipe(
-      tap(book => {
-        console.log(book);
-      })
-    );
+    this.bookList = this.fs.getBooks();
   }
 }

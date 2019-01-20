@@ -1,3 +1,16 @@
-<p>
-  book-detail works!
-</p>
+<mat-card *ngIf="(book$ | async); let book">
+  <mat-card-header>
+    <mat-card-title>{{ book.title }}</mat-card-title>
+    <mat-card-subtitle *ngIf="(chapter$ | async); let chapter">{{
+      chapter.title
+    }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content *ngIf="(section$ | async); let section">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ section.title }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content> {{ section.description }} </mat-card-content>
+    </mat-card>
+  </mat-card-content>
+</mat-card>

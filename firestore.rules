@@ -5,6 +5,14 @@ service cloud.firestore {
     }
     match /books/{bookId}{
       allow read: if true;
+
+      match /chapters/{chapterId}{
+        allow read: if true;
+
+        match /sections/{sectionId}{
+          allow read: if true;
+        }
+      }
     }
   }
 }
