@@ -1,10 +1,56 @@
-<mat-nav-list class="nav-links">
-  <a
-    mat-list-item
-    [routerLink]="['/books', book.id]"
-    routerLinkActive="active-link"
-    *ngFor="let book of (bookList | async)"
-  >
-    <h4 matLine>{{ book.title }}</h4>
-  </a>
-</mat-nav-list>
+<mat-accordion [displayMode]="'flat'">
+  <mat-expansion-panel [expanded]="rlaBooks.isActive">
+    <mat-expansion-panel-header>
+      <mat-panel-title
+        routerLink="/books"
+        routerLinkActive="active-link"
+        (click)="$event.stopPropagation()"
+        #rlaBooks="routerLinkActive"
+        >Books</mat-panel-title
+      >
+    </mat-expansion-panel-header>
+
+    <mat-nav-list class="nav-links">
+      <a
+        mat-list-item
+        [routerLink]="['/books', book.id]"
+        routerLinkActive="active-link"
+        *ngFor="let book of (bookList | async)"
+      >
+        <h4 matLine>{{ book.title }}</h4>
+      </a>
+    </mat-nav-list>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Graphic Novels</mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-nav-list class="nav-links">
+      <a
+        mat-list-item
+        [routerLink]="['/graphicnovels', gn.id]"
+        routerLinkActive="active-link"
+        *ngFor="let gn of (graphicNovelList | async)"
+      >
+        <h4 matLine>{{ gn.title }}</h4>
+      </a>
+    </mat-nav-list>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title (click)="$event.stopPropagation()"
+        >Authors</mat-panel-title
+      >
+    </mat-expansion-panel-header>
+    <mat-nav-list class="nav-links">
+      <a
+        mat-list-item
+        [routerLink]="['/authors', author.id]"
+        routerLinkActive="active-link"
+        *ngFor="let author of (authorList | async)"
+      >
+        <h4 matLine>{{ author.name }}</h4>
+      </a>
+    </mat-nav-list>
+  </mat-expansion-panel>
+</mat-accordion>

@@ -14,5 +14,11 @@ service cloud.firestore {
         }
       }
     }
+    match /authors/{authorId}{
+      allow read: if true;
+    }
+    match /graphicnovels/{gnId}{
+      allow read: if true;
+    }
   }
 }
