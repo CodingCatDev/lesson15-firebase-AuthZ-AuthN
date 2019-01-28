@@ -14,6 +14,10 @@ const routes: Routes = [
       {
         path: ':bookId',
         loadChildren: './book-detail/book-detail.module#BookDetailModule'
+      },
+      {
+        path: ':bookId/edit',
+        loadChildren: './book-edit/book-edit.module#BookEditModule'
       }
     ]
   }

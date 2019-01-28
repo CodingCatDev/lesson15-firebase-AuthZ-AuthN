@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 
 import { BookDetailRoutingModule } from './book-detail-routing.module';
 import { BookDetailComponent } from './book-detail.component';
-import { MatCardModule } from '@angular/material';
+import { MatCardModule, MatButtonModule } from '@angular/material';
 
 @NgModule({
   declarations: [BookDetailComponent],
@@ -14,7 +14,8 @@ import { MatCardModule } from '@angular/material';
     FlexModule,
     BookDetailRoutingModule,
     BookDrawerModule,
-    MatCardModule
+    MatCardModule,
+    MatButtonModule
   ]
 })
 export class BookDetailModule {}

@@ -13,4 +13,13 @@
       <mat-card-content> {{ section.description }} </mat-card-content>
     </mat-card>
   </mat-card-content>
+  <mat-card-actions>
+    <button
+      mat-raised-button
+      color="primary"
+      [routerLink]="['/books', bookId, 'edit']"
+    >
+      Edit
+    </button>
+  </mat-card-actions>
 </mat-card>

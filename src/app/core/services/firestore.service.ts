@@ -8,12 +8,19 @@ import { AngularfirebaseService } from './angularfirebase.service';
 import { Chapter } from '../models/chapter';
 import { Section } from '../models/section';
 import { Graphicnovel } from '../models/graphicnovel';
+import { ConfigBook } from '../models/config-book';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirestoreService {
   constructor(private afb: AngularfirebaseService) {}
+  // Configs
+  getConfigBook(): Observable<ConfigBook> {
+    // Start Using AngularFirebase Service!!
+    return this.afb.doc$<ConfigBook>(`config/book`);
+  }
+
   // Books
   getBooks(): Observable<Book[]> {
     // Start Using AngularFirebase Service!!

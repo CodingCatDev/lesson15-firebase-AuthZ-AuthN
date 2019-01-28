@@ -1,0 +1,113 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <mat-card *ngIf="(book$ | async); let book; else: spin" style="width: 75%">
+    <mat-card-content>
+      <div fxLayout="column" fxLayoutAlign="space-around stretch">
+        <section>
+          <mat-form-field style="width: 100%">
+            <input matInput placeholder="Title" [(ngModel)]="book.title" />
+          </mat-form-field>
+        </section>
+        <section>
+          <mat-form-field style="width: 100%">
+            <textarea
+              matInput
+              placeholder="Description"
+              [(ngModel)]="book.description"
+              rows="5"
+            ></textarea>
+          </mat-form-field>
+        </section>
+        <section>
+          <mat-slide-toggle
+            [checked]="fictionSelected"
+            (change)="fictionChange($event)"
+            #ficToggle
+          >
+            <p *ngIf="ficToggle.checked; else nonFic">Fiction</p>
+          </mat-slide-toggle>
+        </section>
+        <section>
+          <mat-form-field style="width: 100%">
+            <input
+              name="genre"
+              type="text"
+              matInput
+              [formControl]="genreControl"
+              [matAutocomplete]="auto"
+              placeholder="Genre"
+              aria-label="Genre"
+            />
+          </mat-form-field>
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let genre of (genreList$ | async)"
+              [value]="genre"
+            >
+              {{ genre }}
+            </mat-option>
+          </mat-autocomplete>
+        </section>
+        <section *ngIf="(bookConfig$ | async); let bookConfig">
+          <h3>Options</h3>
+          <div fxLayout="column">
+            <mat-checkbox [(ngModel)]="bookConfig.options.hasAudio">
+              Audio
+            </mat-checkbox>
+            <mat-checkbox [(ngModel)]="bookConfig.options.hasPhotos">
+              Photos
+            </mat-checkbox>
+            <mat-checkbox [(ngModel)]="bookConfig.options.hasVideos">
+              Videos
+            </mat-checkbox>
+          </div>
+        </section>
+        <section>
+          <mat-form-field>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              placeholder="Publish Date"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </section>
+        <section>
+          <mat-form-field style="width: 100%">
+            <mat-select placeholder="Age Category">
+              <mat-option
+                *ngFor="let ageCategory of (bookConfig$ | async)?.ageCategory"
+                [value]="ageCategory"
+              >
+                {{ ageCategory }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+        <section>
+          <h3>Rating</h3>
+          <mat-slider
+            min="1"
+            max="5"
+            step="0.5"
+            value="1.5"
+            [(ngModel)]="bookRating"
+          ></mat-slider>
+        </section>
+        <section>
+          <h3>Status</h3>
+          <mat-radio-group [(ngModel)]="bookStatus" fxLayout="column">
+            <mat-radio-button value="Draft">Draft</mat-radio-button>
+            <mat-radio-button value="Published">Published</mat-radio-button>
+          </mat-radio-group>
+        </section>
+      </div>
+    </mat-card-content>
+    <mat-card-actions> <button mat-button>Ok</button> </mat-card-actions>
+  </mat-card>
+</div>
+<ng-template #nonFic>Non-Fiction</ng-template>
+<ng-template #spin><mat-spinner></mat-spinner></ng-template>

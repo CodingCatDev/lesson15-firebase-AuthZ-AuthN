@@ -3,6 +3,10 @@ service cloud.firestore {
     match /{document=**} {
       allow read, write: if false;
     }
+    match /config/{configId}{
+      allow read: if true;
+    }
+
     match /books/{bookId}{
       allow read: if true;
 
