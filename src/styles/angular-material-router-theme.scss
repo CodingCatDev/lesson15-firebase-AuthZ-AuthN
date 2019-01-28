@@ -212,7 +212,7 @@ $angular-material-router-app-theme: mat-light-theme(
 $angular-material-router-app-green: mat-palette($md-green);
 $angular-material-router-app-yellow: mat-palette($md-yellow);
 $angular-material-router-app-purple: mat-palette($md-purple);
-$angular-material-router-app-pink: mat-palette($md-pink);
+$angular-material-router-app-pink: mat-palette($md-pink, 200);
 
 $angular-material-router-app-theme-green: mat-light-theme(
   $angular-material-router-app-green,
