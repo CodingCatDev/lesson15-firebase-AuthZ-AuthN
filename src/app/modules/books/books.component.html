@@ -1,8 +1,11 @@
 <mat-drawer-container>
-  <mat-drawer  opened="true" mode="side">
-    <router-outlet name="book-drawer"></router-outlet>
+  <mat-drawer [opened]="showBooksDrawer$ | async" mode="side">
+    <router-outlet
+      name="book-drawer"
+      (activate)="onBooksDrawerActivate($event)"
+      (deactivate)="onBooksDrawerDeactivate($event)"
+    >
+    </router-outlet>
   </mat-drawer>
-  <mat-drawer-content>
-    <router-outlet></router-outlet>
-  </mat-drawer-content>
+  <mat-drawer-content> <router-outlet></router-outlet> </mat-drawer-content>
 </mat-drawer-container>
