@@ -1,5 +1,8 @@
-<div fxLayout="row" fxLayoutAlign="center center">
-  <mat-card *ngIf="(book$ | async); let book; else: spin" style="width: 75%">
+<div fxLayout="column" fxLayoutAlign="space-around center">
+  <mat-card
+    *ngIf="(book$ | async); let book; else: spin"
+    style="width: 75%; margin-bottom: 100px;"
+  >
     <mat-card-content>
       <div fxLayout="column" fxLayoutAlign="space-around stretch">
         <section>
