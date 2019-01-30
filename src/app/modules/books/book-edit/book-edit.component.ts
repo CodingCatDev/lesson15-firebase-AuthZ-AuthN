@@ -35,7 +35,7 @@ export class BookEditComponent implements OnInit, OnDestroy {
     // Set Book Config
     this.bookConfig$ = this.fs.getConfigBook();
 
-    // Set default Book Type from Config
+    // Set default Genere
     this.bookConfig$.pipe(take(1)).subscribe(bookConfig => {
       this.subs.push(
         this.genreControl.valueChanges.pipe(startWith('')).subscribe(value => {

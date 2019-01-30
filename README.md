@@ -1,6 +1,6 @@
 # Angular Material Dynamic Navigation using Firestore
 
-The goal of this lesson is to take our [Lesson 10 - Angular Material Theming](http://ajonp.com/lessons/10-angular-material-theming/) and add navigational elements. The two for this lesson will include [Angular Material Tree](https://material.angular.io/components/tree/overview) and [Angular Material Expansion Panel](https://material.angular.io/components/expansion/overview).
+The goal of this lesson is to take our [Lesson 10 - Angular Material Theming](http://ajonp.com/lessons/10-angular-material-forms-from-firestore/) and add navigational elements. The two for this lesson will include [Angular Material Tree](https://material.angular.io/components/tree/overview) and [Angular Material Expansion Panel](https://material.angular.io/components/expansion/overview).
 
 ## Lesson Steps
 
@@ -26,7 +26,7 @@ For our starter template we will use our previes lesson repo, make sure you are 
 In your terminal, clone the repo to a new folder
 
 ```sh
-git clone https://github.com/AJONPLLC/lesson-10-angular-material-theming.git lesson-11
+git clone https://github.com/AJONPLLC/lesson-10-angular-material-forms-from-firestore.git lesson-11
 ```
 
 Remove the old origin

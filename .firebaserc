@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "ajonp-hosting-lessons"
+  },
+  "targets": {
+    "lesson11-angular-nav-firestore": {
+      "hosting": {
+        "lesson12": [
+          "ajonp-lesson-12"
+        ]
+      }
+    }
+  }
+}

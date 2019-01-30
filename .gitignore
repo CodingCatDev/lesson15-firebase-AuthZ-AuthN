@@ -42,6 +42,4 @@ testem.log
 .DS_Store
 Thumbs.db
 
-.firebaserc
-firebase.json
 hosting*
