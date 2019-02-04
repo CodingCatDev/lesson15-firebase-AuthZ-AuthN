@@ -1,10 +1,10 @@
-import { Observable, Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FirestoreService } from 'src/app/core/services/firestore.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { Book } from 'src/app/core/models/book';
 import { Chapter } from 'src/app/core/models/chapter';
 import { Section } from 'src/app/core/models/section';
+import { FirestoreService } from 'src/app/core/services/firestore.service';
 
 @Component({
   selector: 'app-book-detail',
@@ -12,14 +12,19 @@ import { Section } from 'src/app/core/models/section';
   styleUrls: ['./book-detail.component.scss']
 })
 export class BookDetailComponent implements OnInit, OnDestroy {
+  constructor(private fs: FirestoreService, private route: ActivatedRoute) {}
   book$: Observable<Book>;
-  chapter$: Observable<Chapter>;
-  section$: Observable<Section>;
   bookId: string;
+  chapter$: Observable<Chapter>;
   chapterId: string;
+  section$: Observable<Section>;
   sectionId: string;
   subscriptions: Subscription[] = [];
-  constructor(private fs: FirestoreService, private route: ActivatedRoute) {}
+  ngOnDestroy() {
+    this.subscriptions.forEach(s => {
+      s.unsubscribe();
+    });
+  }
 
   ngOnInit() {
     this.subscriptions.push(
@@ -45,10 +50,5 @@ export class BookDetailComponent implements OnInit, OnDestroy {
         }
       })
     );
-  }
-  ngOnDestroy() {
-    this.subscriptions.forEach(s => {
-      s.unsubscribe();
-    });
   }
 }

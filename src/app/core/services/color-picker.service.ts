@@ -1,14 +1,13 @@
+import { OverlayContainer } from '@angular/cdk/overlay';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ColorPickerService {
-  initialClass = 'angular-material-router-app-theme';
-  colorClass$: BehaviorSubject<string> = new BehaviorSubject(this.initialClass);
   constructor(private overlayContainer: OverlayContainer) {
+    this.colorClass$ = new BehaviorSubject(this.initialClass);
     const storageClass = localStorage.getItem('color-picker');
     console.log(storageClass);
     if (storageClass) {
@@ -18,6 +17,8 @@ export class ColorPickerService {
       overlayContainer.getContainerElement().classList.add(this.initialClass);
     }
   }
+  colorClass$: BehaviorSubject<string>;
+  initialClass = 'angular-material-router-app-theme';
   getColorClass() {
     return this.colorClass$;
   }

@@ -1,11 +1,12 @@
-import { Observable, Subscription, BehaviorSubject } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { FirestoreService } from './../../../core/services/firestore.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Book } from 'src/app/core/models/book';
-import { take, startWith } from 'rxjs/operators';
-import { ConfigBook } from 'src/app/core/models/config-book';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { startWith, take } from 'rxjs/operators';
+import { Book } from 'src/app/core/models/book';
+import { ConfigBook } from 'src/app/core/models/config-book';
+
+import { FirestoreService } from './../../../core/services/firestore.service';
 
 @Component({
   selector: 'app-book-edit',
@@ -13,16 +14,25 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./book-edit.component.scss']
 })
 export class BookEditComponent implements OnInit, OnDestroy {
-  subs: Subscription[] = [];
+  constructor(private router: ActivatedRoute, private fs: FirestoreService) {}
   book$: Observable<Book>;
   bookConfig$: Observable<ConfigBook>;
-  fictionSelected = true;
-  genreList$: BehaviorSubject<string[]> = new BehaviorSubject([]);
-  genreControl = new FormControl();
   bookRating = 3;
   bookStatus = 'Draft';
+  fictionSelected = true;
+  genreControl = new FormControl();
+  genreList$: BehaviorSubject<string[]> = new BehaviorSubject([]);
+  subs: Subscription[] = [];
 
-  constructor(private router: ActivatedRoute, private fs: FirestoreService) {}
+  fictionChange(e) {
+    this.fictionSelected = e.checked;
+    this.genreControl.reset();
+  }
+  ngOnDestroy() {
+    this.subs.forEach(sub => {
+      sub.unsubscribe();
+    });
+  }
 
   ngOnInit() {
     // Get bookId for book document selection from Firestore
@@ -56,15 +66,5 @@ export class BookEditComponent implements OnInit, OnDestroy {
         })
       );
     });
-  }
-  ngOnDestroy() {
-    this.subs.forEach(sub => {
-      sub.unsubscribe();
-    });
-  }
-
-  fictionChange(e) {
-    this.fictionSelected = e.checked;
-    this.genreControl.reset();
   }
 }

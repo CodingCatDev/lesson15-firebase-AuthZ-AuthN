@@ -8,9 +8,8 @@ describe('KitchensinkComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ KitchensinkComponent ]
-    })
-    .compileComponents();
+      declarations: [KitchensinkComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

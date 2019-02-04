@@ -8,9 +8,8 @@ describe('SidenavBooksComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SidenavBooksComponent ]
-    })
-    .compileComponents();
+      declarations: [SidenavBooksComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

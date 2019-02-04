@@ -1,12 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { KitchensinkRoutingModule } from './kitchensink-routing.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import {
-  KitchensinkComponent,
-  TestEntryComponent
-} from './kitchensink.component';
+import { CdkTableModule } from '@angular/cdk/table';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
   MatBadgeModule,
@@ -19,6 +16,7 @@ import {
   MatDatepickerModule,
   MatDialogModule,
   MatDividerModule,
+  MatExpansionModule,
   MatFormFieldModule,
   MatGridListModule,
   MatIconModule,
@@ -36,17 +34,16 @@ import {
   MatSliderModule,
   MatSlideToggleModule,
   MatSnackBarModule,
+  MatSortModule,
+  MatStepperModule,
+  MatTableModule,
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
-  MatExpansionModule,
-  MatSortModule,
-  MatTableModule,
-  MatStepperModule
 } from '@angular/material';
-import { CdkTableModule } from '@angular/cdk/table';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
+import { KitchensinkRoutingModule } from './kitchensink-routing.module';
+import { KitchensinkComponent, TestEntryComponent } from './kitchensink.component';
 
 @NgModule({
   declarations: [KitchensinkComponent, TestEntryComponent],

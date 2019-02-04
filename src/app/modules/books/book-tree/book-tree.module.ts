@@ -1,12 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { MatButtonModule, MatIconModule, MatProgressBarModule, MatTreeModule } from '@angular/material';
+
 import { BookTreeComponent } from './book-tree.component';
-import {
-  MatTreeModule,
-  MatIconModule,
-  MatProgressBarModule,
-  MatButtonModule
-} from '@angular/material';
 
 @NgModule({
   declarations: [BookTreeComponent],

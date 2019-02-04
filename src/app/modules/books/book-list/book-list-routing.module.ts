@@ -1,7 +1,7 @@
-import { BookListComponent } from './book-list.component';
-
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+
+import { BookListComponent } from './book-list.component';
 
 const routes: Routes = [
   {

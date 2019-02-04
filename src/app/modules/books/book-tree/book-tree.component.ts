@@ -1,13 +1,13 @@
-import { Book } from 'src/app/core/models/book';
-import { Injectable, Component, OnInit, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Observable, merge, Subscription } from 'rxjs';
-import { FlatTreeControl } from '@angular/cdk/tree';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { FirestoreService } from 'src/app/core/services/firestore.service';
 import { CollectionViewer, SelectionChange } from '@angular/cdk/collections';
-import { map, tap, take } from 'rxjs/operators';
+import { FlatTreeControl } from '@angular/cdk/tree';
+import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject, merge, Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Book } from 'src/app/core/models/book';
 import { Chapter } from 'src/app/core/models/chapter';
 import { Section } from 'src/app/core/models/section';
+import { FirestoreService } from 'src/app/core/services/firestore.service';
 
 /** Flat node with expandable and level information */
 export class DynamicFlatNode {
@@ -24,9 +24,6 @@ export class DynamicFlatNode {
 
 @Injectable()
 export class DynamicDataSource {
-  dataChange = new BehaviorSubject<DynamicFlatNode[]>([]);
-  bookTree = {};
-  subscriptions: Subscription[] = [];
   get data(): DynamicFlatNode[] {
     return this.dataChange.value;
   }
@@ -70,6 +67,9 @@ export class DynamicDataSource {
       })
     );
   }
+  bookTree = {};
+  dataChange = new BehaviorSubject<DynamicFlatNode[]>([]);
+  subscriptions: Subscription[] = [];
 
   connect(collectionViewer: CollectionViewer): Observable<DynamicFlatNode[]> {
     this.treeControl.expansionModel.onChange.subscribe(change => {
@@ -166,8 +166,6 @@ export class DynamicDataSource {
   styleUrls: ['./book-tree.component.scss']
 })
 export class BookTreeComponent implements OnInit, OnDestroy {
-  treeControl: FlatTreeControl<DynamicFlatNode>;
-  dataSource: DynamicDataSource;
   constructor(
     private route: ActivatedRoute,
     private fs: FirestoreService,
@@ -184,14 +182,22 @@ export class BookTreeComponent implements OnInit, OnDestroy {
       this.router
     );
   }
+  dataSource: DynamicDataSource;
+  treeControl: FlatTreeControl<DynamicFlatNode>;
 
-  ngOnInit() {}
+  getLevel = (node: DynamicFlatNode) => node.level;
+
+  hasChild = (_: number, _nodeData: DynamicFlatNode) => _nodeData.expandable;
+
+  isExpandable = (node: DynamicFlatNode) => node.expandable;
 
   ngOnDestroy() {
     this.dataSource.subscriptions.forEach(s => {
       s.unsubscribe();
     });
   }
+
+  ngOnInit() {}
 
   section(node: DynamicFlatNode) {
     // Update query params on current chapter
@@ -201,10 +207,4 @@ export class BookTreeComponent implements OnInit, OnDestroy {
       queryParamsHandling: 'merge'
     });
   }
-
-  getLevel = (node: DynamicFlatNode) => node.level;
-
-  isExpandable = (node: DynamicFlatNode) => node.expandable;
-
-  hasChild = (_: number, _nodeData: DynamicFlatNode) => _nodeData.expandable;
 }

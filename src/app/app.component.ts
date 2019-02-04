@@ -1,5 +1,6 @@
-import { ColorPickerService } from './core/services/color-picker.service';
 import { Component, OnInit } from '@angular/core';
+
+import { ColorPickerService } from './core/services/color-picker.service';
 
 @Component({
   selector: 'app-root',
@@ -7,10 +8,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'angular-material-router-outlet';
-  themeClass;
   constructor(private colorPicker: ColorPickerService) {
     this.themeClass = this.colorPicker.getColorClass();
   }
+  themeClass;
+  title = 'angular-material-router-outlet';
   ngOnInit(): void {}
 }

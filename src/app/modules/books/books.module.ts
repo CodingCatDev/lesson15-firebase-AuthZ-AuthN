@@ -1,6 +1,6 @@
-import { MatSidenavModule } from '@angular/material';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { MatSidenavModule } from '@angular/material';
 
 import { BooksRoutingModule } from './books-routing.module';
 import { BooksComponent } from './books.component';

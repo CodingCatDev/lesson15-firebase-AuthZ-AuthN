@@ -1,6 +1,7 @@
-import { BookTreeModule } from './../book-tree/book-tree.module';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+
+import { BookTreeModule } from './../book-tree/book-tree.module';
 import { BookDrawerComponent } from './book-drawer.component';
 
 @NgModule({

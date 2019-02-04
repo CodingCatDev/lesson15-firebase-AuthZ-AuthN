@@ -1,11 +1,11 @@
-import { Author } from './../../../core/models/author';
-import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { Book } from 'src/app/core/models/book';
-import { FirestoreService } from 'src/app/core/services/firestore.service';
 import { Graphicnovel } from 'src/app/core/models/graphicnovel';
+import { FirestoreService } from 'src/app/core/services/firestore.service';
+
+import { Author } from './../../../core/models/author';
 
 @Component({
   selector: 'app-book-list',
@@ -13,10 +13,10 @@ import { Graphicnovel } from 'src/app/core/models/graphicnovel';
   styleUrls: ['./book-list.component.scss']
 })
 export class BookListComponent implements OnInit {
+  constructor(private fs: FirestoreService, private router: Router) {}
+  authorList: Observable<Author[]>;
   bookList: Observable<Book[]>;
   graphicNovelList: Observable<Graphicnovel[]>;
-  authorList: Observable<Author[]>;
-  constructor(private fs: FirestoreService, private router: Router) {}
 
   ngOnInit() {
     this.bookList = this.fs.getBooks();

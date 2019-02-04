@@ -1,10 +1,10 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { DataSource } from '@angular/cdk/table';
-import { Observable, of } from 'rxjs';
-import { MatSnackBar, MatDialog, MatBottomSheet } from '@angular/material';
-import { ViewportRuler } from '@angular/cdk/overlay';
 import { FocusMonitor } from '@angular/cdk/a11y';
+import { ViewportRuler } from '@angular/cdk/overlay';
+import { DataSource } from '@angular/cdk/table';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatBottomSheet, MatDialog, MatSnackBar } from '@angular/material';
+import { Observable, of } from 'rxjs';
 
 @Component({
   template: `
@@ -19,15 +19,6 @@ export class TestEntryComponent {}
   styleUrls: ['./kitchensink.component.scss']
 })
 export class KitchensinkComponent implements OnInit {
-  /** List of columns for the CDK and Material table. */
-  tableColumns = ['userId'];
-
-  /** Data source for the CDK and Material table. */
-  tableDataSource = new TableDataSource();
-
-  myControl = new FormControl();
-  options: string[] = ['One', 'Two', 'Three'];
-
   constructor(
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
@@ -45,12 +36,20 @@ export class KitchensinkComponent implements OnInit {
     viewportRuler.getViewportScrollPosition();
   }
 
+  myControl = new FormControl();
+  options: string[] = ['One', 'Two', 'Three'];
+  /** List of columns for the CDK and Material table. */
+  tableColumns = ['userId'];
+
+  /** Data source for the CDK and Material table. */
+  tableDataSource = new TableDataSource();
+
   ngOnInit() {}
-  openDialog() {
-    this.dialog.open(TestEntryComponent);
-  }
   openBottomSheet() {
     this.bottomSheet.open(TestEntryComponent);
+  }
+  openDialog() {
+    this.dialog.open(TestEntryComponent);
   }
 }
 

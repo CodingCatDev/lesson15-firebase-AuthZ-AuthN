@@ -1,25 +1,25 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  MatCardModule,
-  MatButtonModule,
-  MatSlideToggleModule,
-  MatFormFieldModule,
   MatAutocompleteModule,
-  MatInputModule,
-  MatProgressSpinnerModule,
+  MatButtonModule,
+  MatCardModule,
   MatCheckboxModule,
   MatDatepickerModule,
+  MatFormFieldModule,
+  MatInputModule,
   MatNativeDateModule,
+  MatProgressSpinnerModule,
+  MatRadioModule,
   MatSelectModule,
   MatSliderModule,
-  MatRadioModule
+  MatSlideToggleModule,
 } from '@angular/material';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { BookEditRoutingModule } from './book-edit-routing.module';
 import { BookEditComponent } from './book-edit.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [BookEditComponent],

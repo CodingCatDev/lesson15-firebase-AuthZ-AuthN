@@ -1,6 +1,7 @@
-import { BookEditComponent } from './book-edit.component';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+
+import { BookEditComponent } from './book-edit.component';
 
 const routes: Routes = [
   {

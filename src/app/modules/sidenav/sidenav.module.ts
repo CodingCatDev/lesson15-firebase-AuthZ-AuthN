@@ -1,17 +1,18 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SidenavComponent } from './sidenav.component';
+import { NgModule } from '@angular/core';
+import { FlexModule } from '@angular/flex-layout';
 import {
-  MatSidenavModule,
-  MatToolbarModule,
-  MatIconModule,
   MatButtonModule,
+  MatGridListModule,
+  MatIconModule,
   MatListModule,
   MatMenuModule,
-  MatGridListModule
+  MatSidenavModule,
+  MatToolbarModule,
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
-import { FlexModule } from '@angular/flex-layout';
+
+import { SidenavComponent } from './sidenav.component';
 
 @NgModule({
   declarations: [SidenavComponent],

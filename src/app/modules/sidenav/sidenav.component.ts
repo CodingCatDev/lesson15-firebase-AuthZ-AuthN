@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material';
+import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ColorPickerService } from 'src/app/core/services/color-picker.service';
 
@@ -10,13 +10,16 @@ import { ColorPickerService } from 'src/app/core/services/color-picker.service';
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent implements OnInit, OnDestroy {
-  @ViewChild('snav') public sidenav: MatSidenav;
-  routerSub: Subscription;
-  title = `AJ's Books`;
   constructor(
     private router: Router,
     private colorPicker: ColorPickerService
   ) {}
+  routerSub: Subscription;
+  @ViewChild('snav') public sidenav: MatSidenav;
+  title = `AJ's Books`;
+  ngOnDestroy() {
+    this.routerSub.unsubscribe();
+  }
   // This will be used for closing the sidenav drawer and scrolling to the top of screen
   ngOnInit() {
     this.routerSub = this.router.events.subscribe(event => {
@@ -29,12 +32,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
       window.scrollTo(0, 0);
     });
   }
-  ngOnDestroy() {
-    this.routerSub.unsubscribe();
-  }
-  snavToggle(snav) {
-    snav.toggle();
-  }
+  openThemeMenu() {}
   pickColor(color: string) {
     let colorTheme = '';
     if (color !== '') {
@@ -44,5 +42,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
       `angular-material-router-app-theme${colorTheme}`
     );
   }
-  openThemeMenu() {}
+  snavToggle(snav) {
+    snav.toggle();
+  }
 }
