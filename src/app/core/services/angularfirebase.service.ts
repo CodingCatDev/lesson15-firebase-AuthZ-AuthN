@@ -170,7 +170,8 @@ export class AngularfirebaseService {
               DocumentSnapshotDoesNotExist | DocumentSnapshotExists<T>
             >
           ) => {
-            return doc.payload.data() as T;
+            const id = doc.payload.id;
+            return { id, ...doc.payload.data() } as T;
           }
         )
       );
