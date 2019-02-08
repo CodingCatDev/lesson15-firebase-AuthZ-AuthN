@@ -3,113 +3,180 @@
     *ngIf="(book$ | async); let book; else: spin"
     style="width: 75%; margin-bottom: 100px;"
   >
-    <mat-card-content>
-      <div fxLayout="column" fxLayoutAlign="space-around stretch">
-        <section>
-          <mat-form-field style="width: 100%">
-            <input matInput placeholder="Title" [(ngModel)]="book.title" />
-          </mat-form-field>
-        </section>
-        <section>
-          <mat-form-field style="width: 100%">
-            <textarea
-              matInput
-              placeholder="Description"
-              [(ngModel)]="book.description"
-              rows="5"
-            ></textarea>
-          </mat-form-field>
-        </section>
-        <section>
-          <mat-slide-toggle
-            [checked]="fictionSelected"
-            (change)="fictionChange($event)"
-            #ficToggle
-          >
-            <p *ngIf="ficToggle.checked; else nonFic">Fiction</p>
-          </mat-slide-toggle>
-        </section>
-        <section>
-          <mat-form-field style="width: 100%">
-            <input
-              name="genre"
-              type="text"
-              matInput
-              [formControl]="genreControl"
-              [matAutocomplete]="auto"
-              placeholder="Genre"
-              aria-label="Genre"
-            />
-          </mat-form-field>
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option
-              *ngFor="let genre of (genreList$ | async)"
-              [value]="genre"
-            >
-              {{ genre }}
-            </mat-option>
-          </mat-autocomplete>
-        </section>
-        <section *ngIf="(bookConfig$ | async); let bookConfig">
-          <h3>Options</h3>
-          <div fxLayout="column">
-            <mat-checkbox [(ngModel)]="bookConfig.options.hasAudio">
-              Audio
-            </mat-checkbox>
-            <mat-checkbox [(ngModel)]="bookConfig.options.hasPhotos">
-              Photos
-            </mat-checkbox>
-            <mat-checkbox [(ngModel)]="bookConfig.options.hasVideos">
-              Videos
-            </mat-checkbox>
-          </div>
-        </section>
-        <section>
-          <mat-form-field>
-            <input
-              matInput
-              [matDatepicker]="picker"
-              placeholder="Publish Date"
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="picker"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-        </section>
-        <section>
-          <mat-form-field style="width: 100%">
-            <mat-select placeholder="Age Category">
-              <mat-option
-                *ngFor="let ageCategory of (bookConfig$ | async)?.ageCategory"
-                [value]="ageCategory"
+    <form
+      *ngIf="bookForm"
+      [formGroup]="bookForm"
+      (ngSubmit)="saveBookChanges()"
+      fxLayout="column"
+    >
+      <mat-card-content>
+        <div fxLayout="column" fxLayoutAlign="space-around stretch">
+          <section>
+            <mat-form-field style="width: 100%">
+              <input matInput placeholder="Title" formControlName="title" />
+              <mat-error *ngIf="!bookForm.get('title').hasError('required')">
+                Title has a max length of 50.
+              </mat-error>
+              <mat-error *ngIf="bookForm.get('title').hasError('required')">
+                Title is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </section>
+          <section>
+            <mat-form-field style="width: 100%">
+              <textarea
+                matInput
+                placeholder="Description"
+                formControlName="description"
+                rows="5"
+              ></textarea>
+              <mat-error
+                *ngIf="!bookForm.get('description').hasError('required')"
               >
-                {{ ageCategory }}
+                Description has a max length of 500.
+              </mat-error>
+              <mat-error
+                *ngIf="bookForm.get('description').hasError('required')"
+              >
+                Description is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </section>
+          <section>
+            <mat-slide-toggle
+              [checked]="fictionSelected"
+              (change)="fictionChange($event)"
+              formControlName="fiction"
+              #ficToggle
+            >
+              <p *ngIf="ficToggle.checked; else nonFic">Fiction</p>
+            </mat-slide-toggle>
+          </section>
+          <section>
+            <mat-form-field style="width: 100%">
+              <input
+                name="genre"
+                type="text"
+                matInput
+                [matAutocomplete]="auto"
+                placeholder="Genre"
+                aria-label="Genre"
+                formControlName="genre"
+              />
+              <mat-error> Genre is <strong>required</strong> </mat-error>
+            </mat-form-field>
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option
+                *ngFor="let genre of (genreList$ | async)"
+                [value]="genre"
+              >
+                {{ genre }}
               </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </section>
-        <section>
-          <h3>Rating</h3>
-          <mat-slider
-            min="1"
-            max="5"
-            step="0.5"
-            value="1.5"
-            [(ngModel)]="bookRating"
-          ></mat-slider>
-        </section>
-        <section>
-          <h3>Status</h3>
-          <mat-radio-group [(ngModel)]="bookStatus" fxLayout="column">
-            <mat-radio-button value="Draft">Draft</mat-radio-button>
-            <mat-radio-button value="Published">Published</mat-radio-button>
-          </mat-radio-group>
-        </section>
-      </div>
-    </mat-card-content>
-    <mat-card-actions> <button mat-button>Ok</button> </mat-card-actions>
+            </mat-autocomplete>
+          </section>
+          <section *ngIf="(bookConfig$ | async); let bookConfig">
+            <h3>Options</h3>
+            <div fxLayout="column">
+              <mat-checkbox formControlName="hasAudio">
+                Audio
+              </mat-checkbox>
+              <mat-checkbox formControlName="hasPhotos">
+                Photos
+              </mat-checkbox>
+              <mat-checkbox formControlName="hasVideos">
+                Videos
+              </mat-checkbox>
+            </div>
+          </section>
+          <section>
+            <mat-form-field>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                placeholder="Publish Date"
+                name="publishDate"
+                formControlName="publishDate"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </section>
+          <section>
+            <mat-form-field style="width: 100%">
+              <mat-select
+                placeholder="Age Category"
+                formControlName="ageCategory"
+              >
+                <mat-option
+                  *ngFor="let ageCategory of (bookConfig$ | async)?.ageCategory"
+                  [value]="ageCategory"
+                >
+                  {{ ageCategory }}
+                </mat-option>
+              </mat-select>
+              <mat-error> Age Category is <strong>required</strong> </mat-error>
+            </mat-form-field>
+          </section>
+          <section>
+            <h3>Rating</h3>
+            <mat-slider
+              min="1"
+              max="5"
+              step="0.5"
+              value="1.5"
+              formControlName="rating"
+            ></mat-slider>
+            <mat-error *ngIf="bookForm.get('rating').hasError('required')">
+              Rating is <strong>required</strong>
+            </mat-error>
+          </section>
+          <section>
+            <h3>Status</h3>
+            <mat-radio-group formControlName="status" fxLayout="column">
+              <mat-radio-button value="Draft">Draft</mat-radio-button>
+              <mat-radio-button value="Published">Published</mat-radio-button>
+            </mat-radio-group>
+            <mat-error *ngIf="bookForm.get('status').hasError('required')">
+              Status is <strong>required</strong>
+            </mat-error>
+          </section>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <div fxLayout="row" fxLayoutAlign="space-around center">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="bookForm.pristine || !bookForm.valid"
+            aria-label="Save"
+          >
+            Save
+          </button>
+          <button
+            mat-raised-button
+            color="accent"
+            type="button"
+            (click)="revert()"
+            [disabled]="bookForm.pristine"
+            aria-label="Revert"
+          >
+            Revert
+          </button>
+          <button
+            mat-raised-button
+            color="warn"
+            [routerLink]="['/books', book.id]"
+            aria-label="Cancel"
+          >
+            Cancel
+          </button>
+        </div>
+      </mat-card-actions>
+    </form>
   </mat-card>
 </div>
 <ng-template #nonFic>Non-Fiction</ng-template>

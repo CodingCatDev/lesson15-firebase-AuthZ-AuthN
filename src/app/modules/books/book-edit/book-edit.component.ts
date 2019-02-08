@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Timestamp } from '@firebase/firestore-types';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { startWith, take } from 'rxjs/operators';
+import { map, startWith, take } from 'rxjs/operators';
 import { Book } from 'src/app/core/models/book';
 import { ConfigBook } from 'src/app/core/models/config-book';
 
@@ -14,19 +15,20 @@ import { FirestoreService } from './../../../core/services/firestore.service';
   styleUrls: ['./book-edit.component.scss']
 })
 export class BookEditComponent implements OnInit, OnDestroy {
-  constructor(private router: ActivatedRoute, private fs: FirestoreService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private fs: FirestoreService,
+    private fb: FormBuilder,
+    private router: Router
+  ) {}
   book$: Observable<Book>;
   bookConfig$: Observable<ConfigBook>;
-  bookRating = 3;
-  bookStatus = 'Draft';
-  fictionSelected = true;
-  genreControl = new FormControl();
+  bookForm: FormGroup;
   genreList$: BehaviorSubject<string[]> = new BehaviorSubject([]);
   subs: Subscription[] = [];
 
   fictionChange(e) {
-    this.fictionSelected = e.checked;
-    this.genreControl.reset();
+    this.bookForm.patchValue({ genre: '' }, { onlySelf: true });
   }
   ngOnDestroy() {
     this.subs.forEach(sub => {
@@ -37,9 +39,10 @@ export class BookEditComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Get bookId for book document selection from Firestore
     this.subs.push(
-      this.router.paramMap.subscribe(params => {
+      this.route.paramMap.subscribe(params => {
         const bookId = params.get('bookId');
         this.book$ = this.fs.getBook(bookId);
+        this.rebuildForm();
       })
     );
     // Set Book Config
@@ -48,23 +51,77 @@ export class BookEditComponent implements OnInit, OnDestroy {
     // Set default Genere
     this.bookConfig$.pipe(take(1)).subscribe(bookConfig => {
       this.subs.push(
-        this.genreControl.valueChanges.pipe(startWith('')).subscribe(value => {
-          const filterValue = value ? value.toLowerCase() : '';
-          if (this.fictionSelected) {
-            this.genreList$.next(
-              bookConfig.fiction.filter(option =>
-                option.toLowerCase().includes(filterValue)
-              )
-            );
-          } else {
-            this.genreList$.next(
-              bookConfig.nonFiction.filter(option =>
-                option.toLowerCase().includes(filterValue)
-              )
-            );
-          }
-        })
+        this.bookForm
+          .get('genre')
+          .valueChanges.pipe(startWith(''))
+          .subscribe(value => {
+            const filterValue = value ? value.toLowerCase() : '';
+            if (this.bookForm.get('fiction').value) {
+              this.genreList$.next(
+                bookConfig.fiction.filter(option =>
+                  option.toLowerCase().includes(filterValue)
+                )
+              );
+            } else {
+              this.genreList$.next(
+                bookConfig.nonFiction.filter(option =>
+                  option.toLowerCase().includes(filterValue)
+                )
+              );
+            }
+          })
       );
     });
+  }
+  rebuildForm() {
+    if (this.bookForm) {
+      this.bookForm.reset();
+    }
+    this.subs.push(
+      this.book$
+        .pipe(
+          map(book => {
+            console.log(book.publishDate);
+            if (book.publishDate) {
+              const timestamp = book.publishDate as Timestamp;
+              book.publishDate = timestamp.toDate();
+            }
+            return book;
+          })
+        )
+        .subscribe(book => {
+          this.bookForm = this.fb.group({
+            ageCategory: [book.ageCategory, Validators.required],
+            description: [
+              book.description,
+              [Validators.required, Validators.maxLength(500)]
+            ],
+            fiction: [book.fiction || false, Validators.required],
+            genre: [book.genre, Validators.required],
+            hasAudio: [book.hasAudio],
+            hasPhotos: [book.hasPhotos],
+            hasVideos: [book.hasVideos],
+            id: [book.id],
+            publishDate: [book.publishDate],
+            rating: [book.rating, Validators.required],
+            status: [book.status, Validators.required],
+            title: [book.title, [Validators.required, Validators.maxLength(50)]]
+          });
+        })
+    );
+  }
+
+  revert() {
+    this.rebuildForm();
+  }
+  saveBookChanges() {
+    const book = new Book(this.bookForm.value);
+    this.fs
+      .updateBook(book)
+      .then(() =>
+        this.book$
+          .pipe(take(1))
+          .subscribe(b => this.router.navigate(['/books', b.id]))
+      );
   }
 }

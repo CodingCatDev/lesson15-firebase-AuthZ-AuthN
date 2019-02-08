@@ -15,26 +15,19 @@ import { AngularfirebaseService } from './angularfirebase.service';
 export class FirestoreService {
   constructor(private afb: AngularfirebaseService) {}
 
-  // Get Authors
+  // Getters
   getAuthors(): Observable<Author[]> {
-    // Start Using AngularFirebase Service!!
     return this.afb.colWithIds$<Author[]>('authors');
   }
   getBook(bookId: string): Observable<Book> {
-    // Start Using AngularFirebase Service!!
     return this.afb.doc$<Book>(`books/${bookId}`);
   }
   getBookChapter(bookId: string, chapterId: string): Observable<Chapter> {
-    // Start Using AngularFirebase Service!!
     return this.afb.doc$<Chapter>(`books/${bookId}/chapters/${chapterId}`);
   }
-
-  // Chapters
   getBookChapters(bookId: string): Observable<Chapter[]> {
     return this.afb.colWithIds$<Chapter[]>(`books/${bookId}/chapters`);
   }
-
-  // Books
   getBooks(): Observable<Book[]> {
     // Start Using AngularFirebase Service!!
     return this.afb.colWithIds$<Book[]>('books');
@@ -49,24 +42,20 @@ export class FirestoreService {
       `books/${bookId}/chapters/${chapterId}/sections/${sectionId}`
     );
   }
-
-  // Sections
   getBookSections(bookId: string, chapterId: string): Observable<Section[]> {
-    // return this.fs.collection('books').doc(bookId).collection('chapters').doc(chapterId).collection('sections').valueChanges();
-    // or you can use string template
     return this.afb.colWithIds$<Section[]>(
       `books/${bookId}/chapters/${chapterId}/sections`
     );
   }
-  // Configs
   getConfigBook(): Observable<ConfigBook> {
-    // Start Using AngularFirebase Service!!
     return this.afb.doc$<ConfigBook>(`config/book`);
   }
-
-  // Graphic Novels
   getGraphicNovels(): Observable<Graphicnovel[]> {
-    // Start Using AngularFirebase Service!!
     return this.afb.colWithIds$<Graphicnovel[]>('graphicnovels');
+  }
+
+  // Updates
+  async updateBook(book: Book): Promise<void> {
+    return this.afb.update(`books/${book.id}`, book);
   }
 }

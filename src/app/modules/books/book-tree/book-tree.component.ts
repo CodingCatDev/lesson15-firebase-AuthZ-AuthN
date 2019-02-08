@@ -39,11 +39,11 @@ export class DynamicDataSource {
     private router: Router
   ) {
     /** Initial data from database */
-    this.subscriptions.push(
-      this.route.queryParams.subscribe(params => {
-        console.log(params);
-      })
-    );
+    // this.subscriptions.push(
+    //   this.route.queryParams.subscribe(params => {
+    //     console.log(params);
+    //   })
+    // );
     this.subscriptions.push(
       this.route.paramMap.subscribe(paramMap => {
         const bookId = paramMap.get('bookId');

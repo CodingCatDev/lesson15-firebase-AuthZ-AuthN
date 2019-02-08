@@ -9,6 +9,7 @@ service cloud.firestore {
 
     match /books/{bookId}{
       allow read: if true;
+      allow update: if true;
 
       match /chapters/{chapterId}{
         allow read: if true;

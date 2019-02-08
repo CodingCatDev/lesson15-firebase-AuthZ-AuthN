@@ -9,6 +9,12 @@ export class Book {
   hasPhotos?: boolean;
   hasVideos?: boolean;
   id?: string;
-  publishDate?: Timestamp;
+  publishDate?: Timestamp | Date;
+  rating?: number;
+  status?: string;
   title?: string;
+
+  public constructor(init?: Partial<Book>) {
+    Object.assign(this, init);
+  }
 }
