@@ -171,7 +171,7 @@ export class AngularfirebaseService {
             >
           ) => {
             const data = doc.payload.data();
-            const id = doc.payload.id;
+            const id = { id: doc.payload.id };
             return Object.assign(id, data) as T;
           }
         )
