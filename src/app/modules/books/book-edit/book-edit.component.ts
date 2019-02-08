@@ -24,6 +24,7 @@ export class BookEditComponent implements OnInit, OnDestroy {
   book$: Observable<Book>;
   bookConfig$: Observable<ConfigBook>;
   bookForm: FormGroup;
+  bookId: string;
   genreList$: BehaviorSubject<string[]> = new BehaviorSubject([]);
   subs: Subscription[] = [];
 
@@ -40,8 +41,7 @@ export class BookEditComponent implements OnInit, OnDestroy {
     // Get bookId for book document selection from Firestore
     this.subs.push(
       this.route.paramMap.subscribe(params => {
-        const bookId = params.get('bookId');
-        this.book$ = this.fs.getBook(bookId);
+        this.bookId = params.get('bookId');
         this.rebuildForm();
       })
     );
@@ -77,6 +77,7 @@ export class BookEditComponent implements OnInit, OnDestroy {
     if (this.bookForm) {
       this.bookForm.reset();
     }
+    this.book$ = this.fs.getBook(this.bookId);
     this.subs.push(
       this.book$
         .pipe(
