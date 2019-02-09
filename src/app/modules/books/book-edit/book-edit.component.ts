@@ -115,14 +115,9 @@ export class BookEditComponent implements OnInit, OnDestroy {
   revert() {
     this.rebuildForm();
   }
-  saveBookChanges() {
+  async saveBookChanges() {
     const book = new Book(this.bookForm.value);
-    this.fs
-      .updateBook(book)
-      .then(() =>
-        this.book$
-          .pipe(take(1))
-          .subscribe(b => this.router.navigate(['/books', b.id]))
-      );
+    await this.fs.updateBook(book);
+    this.router.navigate(['/books', this.bookId]);
   }
 }

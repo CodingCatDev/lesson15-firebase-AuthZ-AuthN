@@ -55,7 +55,7 @@ export class FirestoreService {
   }
 
   // Updates
-  async updateBook(book: Book): Promise<void> {
+  updateBook(book: Book): Promise<void> {
     return this.afb.update(`books/${book.id}`, book);
   }
 }
