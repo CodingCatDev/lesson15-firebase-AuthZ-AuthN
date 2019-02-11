@@ -7,5 +7,17 @@
     >
     </router-outlet>
   </mat-drawer>
-  <mat-drawer-content> <router-outlet></router-outlet> </mat-drawer-content>
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+    <button
+      mat-fab
+      color="accent"
+      class="app-fab--absolute"
+      routerLink="/books/new"
+      aria-label="Add"
+      *ngIf="(showBooksAdd$ | async)"
+    >
+      <mat-icon aria-label="Add Book">add</mat-icon>
+    </button>
+  </mat-drawer-content>
 </mat-drawer-container>

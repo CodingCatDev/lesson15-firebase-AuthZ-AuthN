@@ -13,6 +13,14 @@ const routes: Routes = [
         loadChildren: './book-list/book-list.module#BookListModule'
       },
       {
+        path: 'undefined',
+        redirectTo: ''
+      },
+      {
+        path: 'new',
+        redirectTo: 'undefined/edit'
+      },
+      {
         path: ':bookId',
         loadChildren: './book-detail/book-detail.module#BookDetailModule'
       },

@@ -15,3 +15,16 @@ mat-drawer {
     top: 56px;
   }
 }
+
+.app-fab--absolute {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .app-fab--absolute {
+    bottom: 2rem;
+    right: 2rem;
+  }
+}
