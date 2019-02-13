@@ -3,10 +3,10 @@
     "default": "ajonp-hosting-lessons"
   },
   "targets": {
-    "lesson11-angular-nav-firestore": {
+    "ajonp-hosting-lessons": {
       "hosting": {
-        "lesson12": [
-          "ajonp-lesson-12"
+        "lesson14": [
+          "ajonp-lesson-14"
         ]
       }
     }

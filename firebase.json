@@ -4,8 +4,8 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "target": "lesson12",
-    "public": "dist/angular-material-forms-from-firestore",
+    "target": "lesson14",
+    "public": "dist/angular-material-router-awareness",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
