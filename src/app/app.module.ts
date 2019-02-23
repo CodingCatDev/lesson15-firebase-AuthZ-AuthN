@@ -1,6 +1,7 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { MatSliderModule } from '@angular/material';
@@ -22,6 +23,7 @@ import { SidenavModule } from './modules/sidenav/sidenav.module';
     SidenavModule,
     AngularFireModule.initializeApp(environment.firebase), // This sets our key to initialize firebase
     AngularFirestoreModule,
+    AngularFireAuthModule,
     AngularFireStorageModule
   ],
   providers: [{ provide: FirestoreSettingsToken, useValue: {} }], // https://github.com/angular/angularfire2/issues/1993
