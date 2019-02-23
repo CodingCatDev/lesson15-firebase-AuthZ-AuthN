@@ -20,7 +20,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/books',
+    redirectTo: '/welcome',
     pathMatch: 'full'
   }
 ];

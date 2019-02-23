@@ -4,7 +4,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
-import { MatSliderModule } from '@angular/material';
+import { MatSliderModule, MatSnackBarModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from 'src/environments/environment';
@@ -24,7 +24,8 @@ import { SidenavModule } from './modules/sidenav/sidenav.module';
     AngularFireModule.initializeApp(environment.firebase), // This sets our key to initialize firebase
     AngularFirestoreModule,
     AngularFireAuthModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    MatSnackBarModule
   ],
   providers: [{ provide: FirestoreSettingsToken, useValue: {} }], // https://github.com/angular/angularfire2/issues/1993
   bootstrap: [AppComponent]

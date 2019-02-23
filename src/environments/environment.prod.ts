@@ -1,11 +1,11 @@
 export const environment = {
   production: true,
   firebase: {
-    apiKey: 'AIzaSyA19cBoB4ihBtdJFGjNDlZVUZMpiWzvzzs',
-    authDomain: 'lesson11-angular-nav-firestore.firebaseapp.com',
-    databaseURL: 'https://lesson11-angular-nav-firestore.firebaseio.com',
-    projectId: 'lesson11-angular-nav-firestore',
-    storageBucket: 'lesson11-angular-nav-firestore.appspot.com',
-    messagingSenderId: '542056203004'
+    apiKey: 'AIzaSyCXLldoMUB_AxaLpvG4pQ9Pzg9bEqpMgTA',
+    authDomain: 'ajonp-ajs-books.firebaseapp.com',
+    databaseURL: 'https://ajonp-ajs-books.firebaseio.com',
+    projectId: 'ajonp-ajs-books',
+    storageBucket: 'ajonp-ajs-books.appspot.com',
+    messagingSenderId: '936263241017'
   }
 };

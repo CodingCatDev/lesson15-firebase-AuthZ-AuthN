@@ -3,6 +3,16 @@ service cloud.firestore {
     match /{document=**} {
       allow read, write: if false;
     }
+    function getRole(role) {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.roles[role]
+    }
+    // Users
+    match /users/{userId} {
+      allow read: if request.auth.uid != null;
+      allow create: if request.resource.data.roles.keys().hasAny(['admin', 'editor']) == false;
+      allow update: if request.resource.data.roles.keys().hasAny(['admin', 'editor']) == false
+      							|| resource.data.roles.keys().hasAny(['admin', 'editor']) == true;
+    }
     match /config/{configId}{
       allow read: if true;
     }

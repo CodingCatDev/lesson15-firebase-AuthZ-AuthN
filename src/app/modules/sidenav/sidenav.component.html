@@ -65,9 +65,39 @@
             <div class="color-swatch color-swatch-warn" mat-menu-item></div>
           </button>
         </mat-menu>
+        <div fxFlex="nogrow">
+          <div
+            *ngIf="(auth.user$ | async); then authenticated; else guest"
+          ></div>
+        </div>
       </span>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<!--  -->
+
+<!-- User NOT logged in -->
+<ng-template #guest class="box">
+  <button mat-raised-button color="accent" routerLink="/user/user-signin">
+    Sign in
+  </button>
+</ng-template>
+<!-- User logged in -->
+<ng-template #authenticated>
+  <div *ngIf="(auth.user$ | async) as user" fxflexFill>
+    <button mat-button [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+      <img
+        style="height: 40px;width: 40px;border-radius: 50%;flex-shrink: 0;object-fit: cover;"
+        [src]="
+          user.photoURL || 'https://api.adorable.io/avatars/109/butter.png'
+        "
+      />
+    </button>
+    <mat-menu #menu="matMenu" xPosition="before">
+      <button mat-menu-item routerLink="/profile">
+        {{ user.displayName }}
+      </button>
+      <button mat-menu-item (click)="signOut()">Sign out</button>
+    </mat-menu>
+  </div>
+</ng-template>

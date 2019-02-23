@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { ColorPickerService } from 'src/app/core/services/color-picker.service';
 
 @Component({
@@ -11,6 +12,7 @@ import { ColorPickerService } from 'src/app/core/services/color-picker.service';
 })
 export class SidenavComponent implements OnInit, OnDestroy {
   constructor(
+    public auth: AuthService,
     private router: Router,
     private colorPicker: ColorPickerService
   ) {}
@@ -41,6 +43,9 @@ export class SidenavComponent implements OnInit, OnDestroy {
     this.colorPicker.setColorClass(
       `angular-material-router-app-theme${colorTheme}`
     );
+  }
+  signOut() {
+    this.auth.signOut();
   }
   snavToggle(snav) {
     snav.toggle();
