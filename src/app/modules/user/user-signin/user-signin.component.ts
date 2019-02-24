@@ -43,7 +43,7 @@ export class UserSigninComponent implements OnInit, OnDestroy {
       // tosUrl and privacyPolicyUrl accept either url string or a callback
       // function.
       // Terms of service url/callback.
-      tosUrl: 'https://ajonp.com/tos',
+      tosUrl: 'https://ajonp.com/terms',
       // Privacy policy url/callback.
       privacyPolicyUrl: function() {
         window.location.assign('https://ajonp.com/privacy');
