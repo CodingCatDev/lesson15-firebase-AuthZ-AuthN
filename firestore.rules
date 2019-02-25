@@ -3,6 +3,7 @@ service cloud.firestore {
     match /{document=**} {
       allow read, write: if false;
     }
+    // This function allows us to look at AuthZ (Authorization) roles within our database, to see who is allowed for activities.
     function getRole(role) {
       return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.roles[role]
     }
@@ -18,22 +19,36 @@ service cloud.firestore {
     }
 
     match /books/{bookId}{
+      allow create: if getRole('admin') == true;
       allow read: if true;
-      allow update: if true;
+      allow update: if getRole('editor') == true || getRole('admin') == true;
+      allow delete: if getRole('admin') == true;
 
       match /chapters/{chapterId}{
+        allow create: if getRole('admin') == true;
         allow read: if true;
+        allow update: if getRole('editor') == true || getRole('admin') == true;
+        allow delete: if getRole('admin') == true;
 
         match /sections/{sectionId}{
+          allow create: if getRole('admin') == true;
           allow read: if true;
+          allow update: if getRole('editor') == true || getRole('admin') == true;
+          allow delete: if getRole('admin') == true;
         }
       }
     }
     match /authors/{authorId}{
-      allow read: if true;
+        allow create: if getRole('admin') == true;
+        allow read: if true;
+        allow update: if getRole('editor') == true || getRole('admin') == true;
+        allow delete: if getRole('admin') == true;
     }
     match /graphicnovels/{gnId}{
-      allow read: if true;
+        allow create: if getRole('admin') == true;
+        allow read: if true;
+        allow update: if getRole('editor') == true || getRole('admin') == true;
+        allow delete: if getRole('admin') == true;
     }
   }
 }
