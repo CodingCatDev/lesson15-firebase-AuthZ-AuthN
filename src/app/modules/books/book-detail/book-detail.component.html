@@ -15,6 +15,7 @@
   </mat-card-content>
   <mat-card-actions>
     <button
+      *ngIf="(showEdit$ | async)"
       mat-raised-button
       color="primary"
       [routerLink]="['/books', bookId, 'edit']"

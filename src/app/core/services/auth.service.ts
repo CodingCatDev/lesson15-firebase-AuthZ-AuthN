@@ -96,7 +96,7 @@ export class AuthService {
   }
 
   canCreate(user: AjonpUser): boolean {
-    const allowed = ['admin', 'editor', 'subscriber'];
+    const allowed = ['admin', 'editor'];
     return this.checkAuthorization(user, allowed);
   }
 

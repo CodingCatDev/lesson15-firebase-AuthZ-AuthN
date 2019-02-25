@@ -1,6 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+import { AuthService } from './../../core/services/auth.service';
 
 @Component({
   selector: 'app-books',
@@ -10,23 +13,28 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 export class BooksComponent implements OnInit, OnDestroy {
   showBooksAdd$ = new BehaviorSubject(false);
   showBooksDrawer$ = new BehaviorSubject(false);
-  subs: Array<Subscription> = [];
+  unsubscribe$ = new Subject();
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private auth: AuthService) {
     /* Only add Book Add Fab on /books */
-    this.subs.push(
-      this.router.events.subscribe(e => {
-        if (e instanceof NavigationEnd && e.urlAfterRedirects === '/books') {
-          this.showBooksAdd$.next(true);
-        } else {
-          this.showBooksAdd$.next(false);
-        }
-      })
-    );
+    this.router.events.pipe(takeUntil(this.unsubscribe$)).subscribe(e => {
+      if (e instanceof NavigationEnd && e.urlAfterRedirects === '/books') {
+        this.auth.user$.pipe(takeUntil(this.unsubscribe$)).subscribe(user => {
+          /*  Allows us to check if user has rights to add book
+              Reminder this is only valid on front end, protect database */
+          if (user && this.auth.canCreate(user)) {
+            this.showBooksAdd$.next(true);
+          }
+        });
+      } else {
+        this.showBooksAdd$.next(false);
+      }
+    });
   }
 
   ngOnDestroy(): void {
-    this.subs.forEach(sub => sub.unsubscribe());
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   ngOnInit() {}

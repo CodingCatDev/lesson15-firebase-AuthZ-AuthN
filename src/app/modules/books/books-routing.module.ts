@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthCanEditGuard } from 'src/app/core/guards/auth-can-edit.guard';
 
 import { BooksComponent } from './books.component';
 
@@ -26,7 +27,8 @@ const routes: Routes = [
       },
       {
         path: ':bookId/edit',
-        loadChildren: './book-edit/book-edit.module#BookEditModule'
+        loadChildren: './book-edit/book-edit.module#BookEditModule',
+        canLoad: [AuthCanEditGuard]
       }
     ]
   }

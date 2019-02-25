@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Book } from 'src/app/core/models/book';
 import { Chapter } from 'src/app/core/models/chapter';
 import { Section } from 'src/app/core/models/section';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { FirestoreService } from 'src/app/core/services/firestore.service';
 
 @Component({
@@ -12,29 +14,34 @@ import { FirestoreService } from 'src/app/core/services/firestore.service';
   styleUrls: ['./book-detail.component.scss']
 })
 export class BookDetailComponent implements OnInit, OnDestroy {
-  constructor(private fs: FirestoreService, private route: ActivatedRoute) {}
+  constructor(
+    private fs: FirestoreService,
+    private route: ActivatedRoute,
+    private auth: AuthService
+  ) {}
   book$: Observable<Book>;
   bookId: string;
   chapter$: Observable<Chapter>;
   chapterId: string;
   section$: Observable<Section>;
   sectionId: string;
-  subscriptions: Subscription[] = [];
+  showEdit$ = new BehaviorSubject(false);
+  unsubscribe$ = new Subject();
   ngOnDestroy() {
-    this.subscriptions.forEach(s => {
-      s.unsubscribe();
-    });
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   ngOnInit() {
-    this.subscriptions.push(
-      this.route.paramMap.subscribe(paramMap => {
+    this.route.paramMap
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(paramMap => {
         this.bookId = paramMap.get('bookId');
         this.book$ = this.fs.getBook(this.bookId);
-      })
-    );
-    this.subscriptions.push(
-      this.route.queryParamMap.subscribe(paramMap => {
+      });
+    this.route.queryParamMap
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(paramMap => {
         this.chapterId = paramMap.get('chapterId');
         this.sectionId = paramMap.get('sectionId');
 
@@ -48,7 +55,14 @@ export class BookDetailComponent implements OnInit, OnDestroy {
             this.sectionId
           );
         }
-      })
-    );
+      });
+    this.auth.user$.pipe(takeUntil(this.unsubscribe$)).subscribe(user => {
+      /*  Allows us to check if user has rights to edit book
+          Reminder this is only valid on front end, protect database */
+      console.log(this.showEdit$.value);
+      if (user && this.auth.canEdit(user)) {
+        this.showEdit$.next(true);
+      }
+    });
   }
 }
