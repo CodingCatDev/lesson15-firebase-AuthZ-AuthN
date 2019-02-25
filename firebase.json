@@ -4,8 +4,8 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "target": "lesson14",
-    "public": "dist/angular-material-router-awareness",
+    "target": "ajonp-ajs-books",
+    "public": "dist/ajonp-ajs-books",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {

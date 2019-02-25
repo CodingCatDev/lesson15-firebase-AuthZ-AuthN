@@ -1,12 +1,12 @@
 {
   "projects": {
-    "default": "ajonp-hosting-lessons"
+    "default": "ajonp-ajs-books"
   },
   "targets": {
-    "ajonp-hosting-lessons": {
+    "ajonp-ajs-books": {
       "hosting": {
-        "lesson14": [
-          "ajonp-lesson-14"
+        "ajonp-ajs-books": [
+          "ajonp-ajs-books"
         ]
       }
     }
