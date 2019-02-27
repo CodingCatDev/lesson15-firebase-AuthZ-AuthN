@@ -48,7 +48,7 @@ export class AuthService {
             const updatedUser = { uid, ...value.data() };
             this.updateUserData(updatedUser).catch(error => {
               console.log(error);
-              router.navigate(['/signin']);
+              router.navigate(['/user/user-signin']);
             });
           } else {
             const data: AjonpUser = {
@@ -64,7 +64,7 @@ export class AuthService {
             };
             this.setUserData(data).catch(error => {
               console.log(error);
-              router.navigate(['/signin']);
+              router.navigate(['/user/user-signin']);
             });
           }
         });
